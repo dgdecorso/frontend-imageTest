@@ -33,13 +33,27 @@ export default function HomePage() {
           variant="contained"
           sx={{
             color: "#fff",
-            mt: 3,
-            backgroundColor: "#00d4ff",
-            "&:hover": { backgroundColor: "#0f0fcf" },
+            backgroundColor: "#4A4343",
+            "&:hover": { backgroundColor: "#4A4343" },
+            boxShadow: "0px 4px 6px rgba(0, 0, 0, 0)",
+            borderRadius: "0px",
           }}
           onClick={() => navigate("/login")}
         >
           Login
+        </Button>
+        <Button
+          variant="contained"
+          sx={{
+            color: "#fff",
+            backgroundColor: "#4A4343",
+            "&:hover": { backgroundColor: "#4A4343" },
+            boxShadow: "0px 4px 6px rgba(0, 0, 0, 0)",
+            borderRadius: "0px",
+          }}
+          onClick={() => navigate("/register")}
+        >
+          Register
         </Button>
       </Box>
     </Box>
