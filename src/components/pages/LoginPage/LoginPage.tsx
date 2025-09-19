@@ -63,13 +63,6 @@ const Login = () => {
         style={paperStyle}
         sx={{ background: "#2c2c2c", color: "#fff" }}
       >
-        <Grid sx={{ mb: 2 }} align="center">
-          <h2>Sign In</h2>
-          <p>Default login:</p>
-          <p>email: admin@example.com</p>
-          <p>pw: 1234</p>
-        </Grid>
-
         <Formik
           initialValues={{
             email: "",
@@ -95,8 +88,8 @@ const Login = () => {
                 value={props.values.email}
                 sx={{
                   mb: 2,
-                  color: "#fff",
-                  input: { color: "#fff" },
+                  color: "#000000",
+                  input: { color: "#000000" },
                   backgroundColor: "#fff",
                   borderRadius: "4px",
                 }}
@@ -117,8 +110,8 @@ const Login = () => {
                 value={props.values.password}
                 sx={{
                   mb: 2,
-                  color: "#fff",
-                  input: { color: "#fff" },
+                  color: "#000000",
+                  input: { color: "#000000" },
                   backgroundColor: "#fff",
                   borderRadius: "4px",
                 }}
