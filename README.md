@@ -1,7 +1,7 @@
-# uk223 Skeleton
+# uk223
 
-homepage: http://localhost:3000
-login: http://localhost:3000/login
-user component: http://localhost:3000/users
-
-## Components
+1. Copy Repository or download
+2. Open the Folder in CMD
+3. Start Site with `yarn start`  
+   If it doesn't work install yarn
+4. Open [http://localhost:3000](http://localhost:3000) in your browser
