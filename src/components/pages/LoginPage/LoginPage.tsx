@@ -5,13 +5,13 @@ import {
   Button,
   Typography,
   Link,
-} from '@mui/material';
-import React, { useContext } from 'react';
+} from "@mui/material";
+import React, { useContext } from "react";
 
-import { Form, Formik } from 'formik';
-import { useNavigate } from 'react-router-dom';
-import * as Yup from 'yup';
-import ActiveUserContext from '../../../Contexts/ActiveUserContext';
+import { Form, Formik } from "formik";
+import { useNavigate } from "react-router-dom";
+import * as Yup from "yup";
+import ActiveUserContext from "../../../Contexts/ActiveUserContext";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string(),
@@ -21,11 +21,11 @@ const validationSchema = Yup.object().shape({
 const Login = () => {
   const paperStyle = {
     padding: 20,
-    height: '70vh',
+    height: "70vh",
     width: 280,
-    margin: '20px auto',
+    margin: "20px auto",
   };
-  const btnstyle = { margin: '8px 0' };
+  const btnstyle = { margin: "8px 0" };
   const navigate = useNavigate();
   const { login } = useContext(ActiveUserContext);
 
@@ -34,34 +34,39 @@ const Login = () => {
       .then(() => {
         console.log(values);
 
-        navigate('/');
+        navigate("/");
       })
       .catch((error) => {
         if (
-          (typeof error.response !== 'undefined' &&
+          (typeof error.response !== "undefined" &&
             error.response.status === 401) ||
           error.response.status === 403
         ) {
-          alert('invalid login');
+          alert("invalid login");
         } else {
-          alert('login Error');
+          alert("login Error");
         }
       });
   };
   return (
-    <Grid>
-      <Paper elevation={10} style={paperStyle}>
-        <Grid>
-          <h2>Sign In</h2>
-          <p>Default login:</p>
-          <p>email: admin@example.com</p>
-          <p>pw: 1234</p>
-        </Grid>
-
+    <Grid
+      container
+      justifyContent="center"
+      alignItems="center"
+      style={{
+        minHeight: "100vh",
+        background: "#2c2c2c",
+      }}
+    >
+      <Paper
+        elevation={10}
+        style={paperStyle}
+        sx={{ background: "#2c2c2c", color: "#fff" }}
+      >
         <Formik
           initialValues={{
-            email: '',
-            password: '',
+            email: "",
+            password: "",
           }}
           enableReinitialize
           validationSchema={validationSchema}
@@ -72,53 +77,83 @@ const Login = () => {
           {(props) => (
             <Form onSubmit={props.handleSubmit}>
               <TextField
-                label='email'
-                id='email'
-                placeholder='Enter username'
+                label="email"
+                id="email"
+                placeholder="Enter username"
                 fullWidth
                 required
                 autoFocus
                 onChange={props.handleChange}
                 onBlur={props.handleBlur}
                 value={props.values.email}
+                sx={{
+                  mb: 2,
+                  color: "#000000",
+                  input: { color: "#000000" },
+                  backgroundColor: "#fff",
+                  borderRadius: "4px",
+                }}
               />
               {props.errors.email && (
-                <div id='feedback'>{props.errors.email}</div>
+                <div id="feedback">{props.errors.email}</div>
               )}
 
               <TextField
-                id='password'
-                label='password'
-                placeholder='Enter password'
-                type='password'
+                id="password"
+                label="password"
+                placeholder="Enter password"
+                type="password"
                 fullWidth
                 required
                 onChange={props.handleChange}
                 onBlur={props.handleBlur}
                 value={props.values.password}
+                sx={{
+                  mb: 2,
+                  color: "#000000",
+                  input: { color: "#000000" },
+                  backgroundColor: "#fff",
+                  borderRadius: "4px",
+                }}
               />
               {props.errors.password && (
-                <div id='feedback'>{props.errors.password}</div>
+                <div id="feedback">{props.errors.password}</div>
               )}
 
               <Button
-                type='submit'
-                color='primary'
-                variant='contained'
+                type="submit"
+                color="primary"
+                variant="contained"
                 style={btnstyle}
                 fullWidth
+                sx={{
+                  backgroundColor: "#4A4343",
+                  "&:hover": { backgroundColor: "#4A4343" },
+                  borderRadius: "0px",
+                }}
               >
                 Sign in
               </Button>
             </Form>
           )}
         </Formik>
-        <Typography>
-          <Link href='#'>Forgot password ?</Link>
+
+        <Typography sx={{ mt: 1 }}>
+          No Account?
+          <Link
+            href="#"
+            sx={{
+              ml: 1,
+              width: "100%",
+              color: "#fff",
+            }}
+            onClick={() => navigate("/register")}
+          >
+            SIGN UP
+          </Link>
         </Typography>
         <Typography>
-          {' '}
-          Do you have an account ?<Link href='#'>Sign Up</Link>
+          <Link href="#">Forgot password</Link>
         </Typography>
       </Paper>
     </Grid>
