@@ -438,6 +438,7 @@ export default function HomePage() {
         {isLoggedIn ? (
           <>
             <Button
+              data-cy="newPost"
               variant="contained"
               sx={{
                 color: "#fff",
@@ -548,6 +549,7 @@ export default function HomePage() {
         <DialogTitle>Neuen Post erstellen</DialogTitle>
         <DialogContent>
           <TextField
+            data-cy="description"
             fullWidth
             label="Text"
             variant="outlined"
@@ -560,6 +562,7 @@ export default function HomePage() {
             }
           />
           <TextField
+            data-cy="imageUrl"
             fullWidth
             label="Bild URL"
             variant="outlined"
@@ -573,6 +576,7 @@ export default function HomePage() {
         <DialogActions>
           <Button onClick={() => setOpenDialog(false)}>Abbrechen</Button>
           <Button
+            data-cy="submit"
             onClick={handleCreatePost}
             variant="contained"
             disabled={!newPost.description}

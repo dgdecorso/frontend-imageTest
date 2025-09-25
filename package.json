@@ -60,7 +60,8 @@
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"
-    ],    "production": [
+    ],
+    "production": [
       ">0.2%",
       "not dead",
       "not op_mini all"
@@ -75,7 +76,7 @@
     "@testing-library/react-hooks": "^3.4.1",
     "@testing-library/user-event": "^13.5.0",
     "axios-mock-adapter": "^1.18.2",
-    "cypress": "^10.6.0",
+    "cypress": "^15.3.0",
     "react-is": "^16.13.1",
     "react-test-renderer": "^18.2.0",
     "start-server-and-test": "^1.14.0"

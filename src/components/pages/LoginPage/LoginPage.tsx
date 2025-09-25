@@ -77,6 +77,7 @@ const Login = () => {
           {(props) => (
             <Form onSubmit={props.handleSubmit}>
               <TextField
+                data-cy="email"
                 label="email"
                 id="email"
                 placeholder="Enter username"
@@ -99,6 +100,7 @@ const Login = () => {
               )}
 
               <TextField
+                data-cy="password"
                 id="password"
                 label="password"
                 placeholder="Enter password"
@@ -121,6 +123,7 @@ const Login = () => {
               )}
 
               <Button
+                data-cy="submit-login"
                 type="submit"
                 color="primary"
                 variant="contained"
