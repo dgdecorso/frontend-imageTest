@@ -10,6 +10,8 @@
 
 ### (Only Admin) User bearbeiten: http://localhost:3000/useredit/{userid}
 
+### (Only Admin) User erstellen: http://localhost:3000/useredit
+
 
 
 
