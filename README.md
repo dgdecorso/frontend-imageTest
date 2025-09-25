@@ -71,16 +71,23 @@ cd uek223_frontendG5
 ```
 
 ## Abhängigkeiten installieren (falls noch nicht gemacht)
+```bash
 npm install
+```
 
 ## Cypress installieren (falls nicht schon in package.json enthalten)
+```bash
 npm install --save-dev cypress
+```
 
 ## Cypress öffnen (interaktive Test-UI)
+```bash
 npx cypress open
-
+```
 ## oder alle Tests im Terminal ausführen
+```bash
 npx cypress run
+```
 
 | User Case | Beschreibung | Schritte | Erwartetes Ergebnis |
 |-----------|--------------|----------|----------------------|
