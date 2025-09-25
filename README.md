@@ -63,7 +63,7 @@ Basierend auf `data.sql`:
 
 ---
 
-## Cypress Testfälle (Frontend)
+## Cypress Testfälle und installieren(Frontend)
 
 # In das Frontend-Verzeichnis wechseln
 cd uek223_frontendG5
