@@ -89,6 +89,11 @@ npx cypress open
 npx cypress run
 ```
 
+
+
+
+
+
 | User Case | Beschreibung | Schritte | Erwartetes Ergebnis |
 |-----------|--------------|----------|----------------------|
 | **UC1** | Der User kann einen Post erstellen, das aber nur wenn er ein User eingelogged ist. | 1. Login mit gültigem User <br> 2. Klicke auf **"Neuer Post"** <br> 3. Trage `Beschreibung` + `Bild URL` ein <br> 4. Klicke auf **"Post erstellen"** | Neuer Post erscheint in der Galerie mit Bild und Beschreibung |
