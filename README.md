@@ -1,12 +1,12 @@
 # uk223 Skeleton
 
-Homepage: http://localhost:3000
+# Homepage: http://localhost:3000
 -
-Profil: http://localhost:3000/profile
+# Profil: http://localhost:3000/profile
 -
-User Profile: http://localhost:3000/user/profile/{userId}
+# User Profile: http://localhost:3000/user/profile/{userId}
 -
-(Only Admin) User Liste: http://localhost:3000/users
+# (Only Admin) User Liste: http://localhost:3000/users
 -
 
 
