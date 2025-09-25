@@ -1,12 +1,8 @@
-# uk223
+# uk223 Skeleton
 
-## How to start 
-1. Copy Repository or download
-2. Open the Folder in CMD
-3. Start Site with `yarn start`  
-   If it doesn't work install yarn
-4. Open [http://localhost:3000](http://localhost:3000) in your browser
-
+homepage: http://localhost:3000
+login: http://localhost:3000/login
+user component: http://localhost:3000/users
 
 ## Components
 
@@ -64,4 +60,5 @@ Basierend auf `data.sql`:
 [Postman](https://dark-spaceship-903007.postman.co/workspace/Team-Workspace~f176345a-6857-46e0-848c-e34dc1272885/collection/43313840-b6d9db1c-34e8-40c2-9cf1-b3bc217c6f84?action=share&creator=43313840&active-environment=43313840-9c5b71b0-7d51-4b56-96e9-190eb7329579) 
 
 ---
+
 
