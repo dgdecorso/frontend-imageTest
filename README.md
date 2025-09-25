@@ -1,8 +1,8 @@
 # uk223 Skeleton
 
-homepage: http://localhost:3000
-login: http://localhost:3000/login
-user component: http://localhost:3000/users
+Homepage: http://localhost:3000
+Profil: http://localhost:3000/profile
+User Profile: http://localhost:3000/user/profile/{userId}
 
 ## Components
 
@@ -35,14 +35,16 @@ Basierend auf `data.sql`:
 |---------|---------------------|----------|--------------|
 | ADMIN   | admin@example.com   | 1234     | Kann alle Posts sehen, erstellen, bearbeiten und löschen |
 | USER    | user@example.com    | 1234     | Kann eigene Posts erstellen, bearbeiten und löschen, sowie andere Posts sehen |
-| NEUE USER | via `/user/register` | individuell | Weitere Test-User können registriert werden werden automatisch USER|
+
+ **Extra info:** Beim erstellen eines neuem users, via `/user/register` user wird direkt die Rolle User zugeteilt. 
 
 ---
 
 ## Tests ausführen
 
+- **Funktionalitäts Tests**   
+  - **Backend**: Mit **Postman** getestet, indem die einzelnen Use Cases geprüft wurden. Dabei wurden jeweils die Rollen (USER/ADMIN) gewechselt und die JWT Tokens angepasst.
 - **End-to-End Tests**  
-  - **Backend**: Mit **Postman** getestet, indem die einzelnen Use Cases geprüft wurden. Dabei wurden jeweils die Rollen (USER/ADMIN) gewechselt und die JWT Tokens angepasst.  
   - **Frontend**: Mit **Cypress** getestet: **User Case 1** (Erstellen eines Image-Posts).
 
 ---
