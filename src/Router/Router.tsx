@@ -1,5 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import LoginPage from "../components/pages/LoginPage/LoginPage";
+import RegisterPage from "../components/pages/RegisterPage/RegisterPage";
 import PrivateRoute from "./PrivateRoute";
 import UserTable from "../components/pages/UserPage/UserTable";
 import UserPage from "../components/pages/UserPage/UserPage";
@@ -20,6 +21,7 @@ const Router = () => {
     <Routes>
       <Route path={"/"} element={<HomePage />} />
       <Route path={"/login"} element={<LoginPage />} />
+      <Route path={"/register"} element={<RegisterPage />} />
       <Route path={"/profile"} element={<Profile />} />
       <Route path={"/user/profile/:userId"} element={<Profile />} />
 

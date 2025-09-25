@@ -354,7 +354,6 @@ export default function Profile() {
                     <Box
                       component="img"
                       src={post.imageUrl}
-                      alt={post.title || post.text}
                       sx={{
                         width: "100%",
                         height: 200,
@@ -363,9 +362,7 @@ export default function Profile() {
                     />
                   )}
                   <CardContent>
-                    <Typography variant="subtitle1" noWrap>
-                      {post.title || "Untitled"}
-                    </Typography>
+                    <Typography variant="subtitle1" noWrap></Typography>
                     <Typography
                       variant="body2"
                       sx={{

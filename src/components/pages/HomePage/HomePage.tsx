@@ -112,7 +112,7 @@ export default function HomePage() {
         setPosts([...posts, createdPost]);
         setCurrent(posts.length);
         setOpenDialog(false);
-        setNewPost({ text: "", imageUrl: "" });
+        setNewPost({ description: "", imageUrl: "" });
       } else {
         alert("Fehler beim Erstellen des Posts");
       }
@@ -200,7 +200,7 @@ export default function HomePage() {
 
   const openEditDialog = () => {
     setEditPost({
-      text: selectedPost?.text || "",
+      description: selectedPost?.text || "",
       imageUrl: selectedPost?.imageUrl || "",
     });
     setEditDialog(true);
