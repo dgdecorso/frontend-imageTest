@@ -57,7 +57,7 @@ Basierend auf `data.sql`:
 | **UC4** | Liste aller Posts eines bestimmten Users | `GET /posts/user/{userId}` | `Bearer {token}` | – |
 | **UC5** | User liked/unliked einen Post | `POST /posts/{postId}/like` | `Bearer {token}` | –<br>*(1. Click = Like, 2. Click = Unlike)* |
 
-https://dark-spaceship-903007.postman.co/workspace/Team-Workspace~f176345a-6857-46e0-848c-e34dc1272885/request/43313840-5bc857ca-4621-40aa-a7d3-9ccec9d75a64?action=share&creator=43313840&active-environment=43313840-9c5b71b0-7d51-4b56-96e9-190eb7329579 
+[Postman](https://dark-spaceship-903007.postman.co/workspace/Team-Workspace~f176345a-6857-46e0-848c-e34dc1272885/collection/43313840-b6d9db1c-34e8-40c2-9cf1-b3bc217c6f84?action=share&creator=43313840&active-environment=43313840-9c5b71b0-7d51-4b56-96e9-190eb7329579) 
 
 ---
 
