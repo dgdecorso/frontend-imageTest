@@ -63,21 +63,21 @@ Basierend auf `data.sql`:
 
 ---
 
-## Cypress Testfälle und installieren(Frontend)
+# Cypress Testfälle und installieren(Frontend)
 
-# In das Frontend-Verzeichnis wechseln
+## In das Frontend-Verzeichnis wechseln
 cd uek223_frontendG5
 
-# Abhängigkeiten installieren (falls noch nicht gemacht)
+## Abhängigkeiten installieren (falls noch nicht gemacht)
 npm install
 
-# Cypress installieren (falls nicht schon in package.json enthalten)
+## Cypress installieren (falls nicht schon in package.json enthalten)
 npm install --save-dev cypress
 
-# Cypress öffnen (interaktive Test-UI)
+## Cypress öffnen (interaktive Test-UI)
 npx cypress open
 
-# oder alle Tests im Terminal ausführen
+## oder alle Tests im Terminal ausführen
 npx cypress run
 
 | User Case | Beschreibung | Schritte | Erwartetes Ergebnis |
