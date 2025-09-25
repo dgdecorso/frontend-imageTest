@@ -33,11 +33,11 @@ export default function HomePage() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [currentUser, setCurrentUser] = useState<any>(null);
   const [newPost, setNewPost] = useState({
-    text: "",
+    description: "",
     imageUrl: "",
   });
   const [editPost, setEditPost] = useState({
-    text: "",
+    description: "",
     imageUrl: "",
   });
 
@@ -319,7 +319,7 @@ export default function HomePage() {
                   {post.title || ""}
                 </Typography>
                 <Typography variant="body2">
-                  {post.text || post.description || ""}
+                  {post.description || ""}
                 </Typography>
               </CardContent>
             </Card>
@@ -449,8 +449,10 @@ export default function HomePage() {
             margin="normal"
             multiline
             rows={4}
-            value={newPost.text}
-            onChange={(e) => setNewPost({ ...newPost, text: e.target.value })}
+            value={newPost.description}
+            onChange={(e) =>
+              setNewPost({ ...newPost, description: e.target.value })
+            }
           />
           <TextField
             fullWidth
@@ -468,7 +470,7 @@ export default function HomePage() {
           <Button
             onClick={handleCreatePost}
             variant="contained"
-            disabled={!newPost.text}
+            disabled={!newPost.description}
             sx={{
               backgroundColor: "#2c2c2c",
               "&:hover": { backgroundColor: "#2c2c2c" },
@@ -511,8 +513,10 @@ export default function HomePage() {
             margin="normal"
             multiline
             rows={4}
-            value={editPost.text}
-            onChange={(e) => setEditPost({ ...editPost, text: e.target.value })}
+            value={editPost.description}
+            onChange={(e) =>
+              setEditPost({ ...editPost, description: e.target.value })
+            }
           />
           <TextField
             fullWidth
@@ -530,7 +534,7 @@ export default function HomePage() {
           <Button
             onClick={handleEditPost}
             variant="contained"
-            disabled={!editPost.text}
+            disabled={!editPost.description}
             sx={{
               backgroundColor: "#2c2c2c",
               "&:hover": { backgroundColor: "#2c2c2c" },
