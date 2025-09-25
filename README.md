@@ -65,6 +65,21 @@ Basierend auf `data.sql`:
 
 ## Cypress Testfälle (Frontend)
 
+# In das Frontend-Verzeichnis wechseln
+cd uek223_frontendG5
+
+# Abhängigkeiten installieren (falls noch nicht gemacht)
+npm install
+
+# Cypress installieren (falls nicht schon in package.json enthalten)
+npm install --save-dev cypress
+
+# Cypress öffnen (interaktive Test-UI)
+npx cypress open
+
+# oder alle Tests im Terminal ausführen
+npx cypress run
+
 | User Case | Beschreibung | Schritte | Erwartetes Ergebnis |
 |-----------|--------------|----------|----------------------|
 | **UC1** | Der User kann einen Post erstellen, das aber nur wenn er ein User eingelogged ist.S | 1. Login mit gültigem User <br> 2. Klicke auf **"Neuer Post"** <br> 3. Trage `Beschreibung` + `Bild URL` ein <br> 4. Klicke auf **"Post erstellen"** | Neuer Post erscheint in der Galerie mit Bild und Beschreibung |
