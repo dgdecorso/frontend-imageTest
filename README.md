@@ -1,8 +1,15 @@
 # uk223 Skeleton
 
 Homepage: http://localhost:3000
+-
 Profil: http://localhost:3000/profile
+-
 User Profile: http://localhost:3000/user/profile/{userId}
+-
+(Only Admin) User Liste: http://localhost:3000/users
+-
+
+
 
 ## Components
 
