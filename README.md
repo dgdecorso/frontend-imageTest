@@ -66,7 +66,9 @@ Basierend auf `data.sql`:
 # Cypress Testfälle und installieren(Frontend)
 
 ## In das Frontend-Verzeichnis wechseln
+```bash
 cd uek223_frontendG5
+```
 
 ## Abhängigkeiten installieren (falls noch nicht gemacht)
 npm install
