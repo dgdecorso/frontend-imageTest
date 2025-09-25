@@ -45,7 +45,7 @@ const Router = () => {
         path="/useredit/:userId"
         element={
           <PrivateRoute
-            requiredAuths={[authorities.USER_READ]}
+            requiredAuths={[authorities.USER_MODIFY]}
             element={<UserPage />}
           ></PrivateRoute>
         }
