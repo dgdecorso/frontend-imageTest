@@ -10,7 +10,13 @@ import {
   DialogContent,
   DialogActions,
   TextField,
+  IconButton,
+  Menu,
+  MenuItem,
 } from "@mui/material";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import HomePageService from "./HomePageService";
@@ -21,7 +27,16 @@ export default function HomePage() {
   const [current, setCurrent] = useState(0);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
+  const [editDialog, setEditDialog] = useState(false);
+  const [deleteDialog, setDeleteDialog] = useState(false);
+  const [selectedPost, setSelectedPost] = useState<any>(null);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [currentUser, setCurrentUser] = useState<any>(null);
   const [newPost, setNewPost] = useState({
+    text: "",
+    imageUrl: "",
+  });
+  const [editPost, setEditPost] = useState({
     text: "",
     imageUrl: "",
   });
@@ -37,6 +52,12 @@ export default function HomePage() {
     // Add token if available, but still try to fetch without it
     if (token) {
       headers.Authorization = `Bearer ${token}`;
+
+      // Fetch current user info
+      fetch("http://localhost:8080/user/profile", { headers })
+        .then((res) => (res.ok ? res.json() : null))
+        .then((userData) => setCurrentUser(userData))
+        .catch(() => setCurrentUser(null));
     }
 
     fetch("http://localhost:8080/posts", { headers })
@@ -70,6 +91,12 @@ export default function HomePage() {
   const handleCreatePost = async () => {
     const token = localStorage.getItem("token");
 
+    const postData = {
+      ...newPost,
+      authorId: currentUser?.id,
+      authorName: currentUser?.name || currentUser?.email,
+    };
+
     try {
       const response = await fetch("http://localhost:8080/posts", {
         method: "POST",
@@ -77,12 +104,11 @@ export default function HomePage() {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(newPost),
+        body: JSON.stringify(postData),
       });
 
       if (response.ok) {
         const createdPost = await response.json();
-        console.log("Created Post:", createdPost);
         setPosts([...posts, createdPost]);
         setCurrent(posts.length);
         setOpenDialog(false);
@@ -96,7 +122,103 @@ export default function HomePage() {
     }
   };
 
+  const handleEditPost = async () => {
+    const token = localStorage.getItem("token");
+    if (!selectedPost) return;
+
+    try {
+      const response = await fetch(
+        `http://localhost:8080/posts/${selectedPost.id}`,
+        {
+          method: "PUT",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(editPost),
+        }
+      );
+
+      if (response.ok) {
+        const updatedPost = await response.json();
+        const updatedPosts = posts.map((p) =>
+          p.id === selectedPost.id ? updatedPost : p
+        );
+        setPosts(updatedPosts);
+        setEditDialog(false);
+        setSelectedPost(null);
+      } else {
+        alert("Fehler beim Bearbeiten des Posts");
+      }
+    } catch (error) {
+      console.error("Error editing post:", error);
+      alert("Fehler beim Bearbeiten des Posts");
+    }
+  };
+
+  const handleDeletePost = async () => {
+    const token = localStorage.getItem("token");
+    if (!selectedPost) return;
+
+    try {
+      const response = await fetch(
+        `http://localhost:8080/posts/${selectedPost.id}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (response.ok) {
+        const updatedPosts = posts.filter((p) => p.id !== selectedPost.id);
+        setPosts(updatedPosts);
+        if (current >= updatedPosts.length && current > 0) {
+          setCurrent(current - 1);
+        }
+        setDeleteDialog(false);
+        setSelectedPost(null);
+      } else {
+        alert("Fehler beim Löschen des Posts");
+      }
+    } catch (error) {
+      console.error("Error deleting post:", error);
+      alert("Fehler beim Löschen des Posts");
+    }
+  };
+
+  const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+    setSelectedPost(post);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  const openEditDialog = () => {
+    setEditPost({
+      text: selectedPost?.text || "",
+      imageUrl: selectedPost?.imageUrl || "",
+    });
+    setEditDialog(true);
+    handleMenuClose();
+  };
+
+  const openDeleteDialog = () => {
+    setDeleteDialog(true);
+    handleMenuClose();
+  };
+
   const post = posts[current];
+  const isOwnPost =
+    currentUser &&
+    post &&
+    (post.authorId === currentUser.id ||
+      post.authorName === currentUser.name ||
+      post.authorEmail === currentUser.email);
 
   return (
     <Box
@@ -159,8 +281,27 @@ export default function HomePage() {
                 borderRadius: "0px",
                 alignItems: "center",
                 boxShadow: 3,
+                position: "relative",
               }}
             >
+              {isOwnPost && isLoggedIn && (
+                <IconButton
+                  onClick={handleMenuOpen}
+                  sx={{
+                    position: "absolute",
+                    top: 8,
+                    right: 8,
+                    color: "#fff",
+                    backgroundColor: "rgba(0, 0, 0, 0.5)",
+                    zIndex: 1,
+                    "&:hover": {
+                      backgroundColor: "rgba(0, 0, 0, 0.7)",
+                    },
+                  }}
+                >
+                  <MoreVertIcon />
+                </IconButton>
+              )}
               <Box>
                 <img
                   src={post.imageUrl || post.urls?.small || post.url}
@@ -334,6 +475,90 @@ export default function HomePage() {
             }}
           >
             Post erstellen
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Menu for Post Actions */}
+      <Menu
+        anchorEl={anchorEl}
+        open={Boolean(anchorEl)}
+        onClose={handleMenuClose}
+      >
+        <MenuItem onClick={openEditDialog}>
+          <EditIcon sx={{ mr: 1 }} fontSize="small" />
+          Bearbeiten
+        </MenuItem>
+        <MenuItem onClick={openDeleteDialog}>
+          <DeleteIcon sx={{ mr: 1 }} fontSize="small" />
+          Löschen
+        </MenuItem>
+      </Menu>
+
+      {/* Edit Dialog */}
+      <Dialog
+        open={editDialog}
+        onClose={() => setEditDialog(false)}
+        maxWidth="sm"
+        fullWidth
+      >
+        <DialogTitle>Post bearbeiten</DialogTitle>
+        <DialogContent>
+          <TextField
+            fullWidth
+            label="Text"
+            variant="outlined"
+            margin="normal"
+            multiline
+            rows={4}
+            value={editPost.text}
+            onChange={(e) => setEditPost({ ...editPost, text: e.target.value })}
+          />
+          <TextField
+            fullWidth
+            label="Bild URL"
+            variant="outlined"
+            margin="normal"
+            value={editPost.imageUrl}
+            onChange={(e) =>
+              setEditPost({ ...editPost, imageUrl: e.target.value })
+            }
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setEditDialog(false)}>Abbrechen</Button>
+          <Button
+            onClick={handleEditPost}
+            variant="contained"
+            disabled={!editPost.text}
+            sx={{
+              backgroundColor: "#2c2c2c",
+              "&:hover": { backgroundColor: "#2c2c2c" },
+            }}
+          >
+            Speichern
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Delete Confirmation Dialog */}
+      <Dialog
+        open={deleteDialog}
+        onClose={() => setDeleteDialog(false)}
+        maxWidth="xs"
+        fullWidth
+      >
+        <DialogTitle>Post löschen?</DialogTitle>
+        <DialogContent>
+          <Typography>
+            Möchten Sie diesen Post wirklich löschen? Diese Aktion kann nicht
+            rückgängig gemacht werden.
+          </Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setDeleteDialog(false)}>Abbrechen</Button>
+          <Button onClick={handleDeletePost} variant="contained" color="error">
+            Löschen
           </Button>
         </DialogActions>
       </Dialog>

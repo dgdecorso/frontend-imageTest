@@ -25,16 +25,16 @@ export default function Profile() {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    
+
     // Determine which endpoint to use
-    const endpoint = userId 
+    const endpoint = userId
       ? `http://localhost:8080/users/${userId}`
       : "http://localhost:8080/user/profile";
 
     const headers: any = {
       "Content-Type": "application/json",
     };
-    
+
     // Add token if available
     if (token) {
       headers.Authorization = `Bearer ${token}`;
@@ -62,7 +62,7 @@ export default function Profile() {
           email: data.email || "",
           bio: data.bio || "",
         });
-        
+
         // Fetch all posts and filter by user
         fetch(`http://localhost:8080/posts`, { headers })
           .then((res) => {
@@ -74,15 +74,22 @@ export default function Profile() {
           .then((posts) => {
             if (Array.isArray(posts)) {
               // Filter posts by current user
-              const filteredPosts = posts.filter(post => {
+              const filteredPosts = posts.filter((post) => {
                 if (userId) {
-                  return post.authorId === parseInt(userId) || 
-                         post.userId === parseInt(userId);
+                  // For other users' profiles, match by userId parameter
+                  const userIdNum = parseInt(userId);
+                  return post.authorId === userIdNum;
                 } else {
-                  // For own profile, match against the logged-in user
-                  return post.authorName === data.name || 
-                         post.authorEmail === data.email ||
-                         post.authorId === data.id;
+                  // For own profile, match against the logged-in user data
+                  return (
+                    post.authorId === data.id ||
+                    (post.authorName &&
+                      data.name &&
+                      post.authorName === data.name) ||
+                    (post.authorEmail &&
+                      data.email &&
+                      post.authorEmail === data.email)
+                  );
                 }
               });
               setUserPosts(filteredPosts);
@@ -320,7 +327,7 @@ export default function Profile() {
           </Box>
         </CardContent>
       </Card>
-      
+
       {/* User Posts Section */}
       {userPosts.length > 0 && (
         <Box sx={{ mt: 4, width: "80%", maxWidth: 800 }}>
