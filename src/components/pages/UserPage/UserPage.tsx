@@ -16,24 +16,30 @@ const UserPage = () => {
   });
 
   useEffect(() => {
-    return () => {
-      if (userId) {
-        UserService.getUser(userId).then((res) => {
-          return setUser(res);
-        });
-      }
-    };
+    if (userId) {
+      UserService.getUser(userId).then((res) => {
+        setUser(res);
+      }).catch((error) => {
+        console.error('Error loading user:', error);
+        alert('Fehler beim Laden des Benutzers.');
+      });
+    }
   }, [userId]);
 
-  const submitActionHandler = (values: User) => {
-    if (userId !== undefined) {
-      UserService.updateUser(values).then(() => {
-        navigate('../users');
-      });
-    } else {
-      UserService.addUser(values).then(() => {
+  const submitActionHandler = async (values: User) => {
+    try {
+      if (userId !== undefined) {
+        await UserService.updateUser(values);
+        alert('Benutzer erfolgreich aktualisiert!');
         navigate('/users');
-      });
+      } else {
+        await UserService.addUser(values);
+        alert('Benutzer erfolgreich erstellt!');
+        navigate('/users');
+      }
+    } catch (error) {
+      console.error('Error saving user:', error);
+      alert('Fehler beim Speichern des Benutzers. Überprüfen Sie Ihre Admin-Berechtigung.');
     }
   };
 

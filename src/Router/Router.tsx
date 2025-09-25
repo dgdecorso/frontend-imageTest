@@ -51,6 +51,7 @@ const Router = () => {
         }
       />
 
+      <Route path="/unauthorized" element={<div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', background: '#4A4343', color: '#fff', fontSize: '1.5rem'}}>Unauthorized Access - Admin Only</div>} />
       <Route path="*" element={<div>Not Found</div>} />
     </Routes>
   );

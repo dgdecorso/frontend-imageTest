@@ -17,6 +17,8 @@ import {
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import HomePageService from "./HomePageService";
@@ -90,6 +92,10 @@ export default function HomePage() {
 
   const handleCreatePost = async () => {
     const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/login");
+      return;
+    }
 
     const postData = {
       ...newPost,
@@ -189,6 +195,46 @@ export default function HomePage() {
     }
   };
 
+  const handleLikePost = async (postId: string) => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/login");
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `http://localhost:8080/posts/${postId}/like`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (response.ok) {
+        const result = await response.json();
+        // The backend returns {post: PostDTO, action: "liked"/"unliked", message: string}
+        const updatedPost = result.post;
+        const updatedPosts = posts.map((p) =>
+          p.id === postId ? updatedPost : p
+        );
+        setPosts(updatedPosts);
+      } else if (response.status === 400 || response.status === 500) {
+        const errorText = await response.text();
+        if (errorText.includes("cannot like your own post")) {
+          alert("Sie können Ihren eigenen Post nicht liken");
+        }
+      } else {
+        console.error("Error liking post");
+      }
+    } catch (error) {
+      console.error("Error liking post:", error);
+    }
+  };
+
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
     setSelectedPost(post);
@@ -200,7 +246,7 @@ export default function HomePage() {
 
   const openEditDialog = () => {
     setEditPost({
-      description: selectedPost?.text || "",
+      description: selectedPost?.description || selectedPost?.text || "",
       imageUrl: selectedPost?.imageUrl || "",
     });
     setEditDialog(true);
@@ -213,12 +259,27 @@ export default function HomePage() {
   };
 
   const post = posts[current];
+
+  // Check if current user is admin
+  const isAdmin = currentUser?.roles?.some((role: any) =>
+    role.name === "ADMIN"
+  );
+
   const isOwnPost =
     currentUser &&
     post &&
     (post.authorId === currentUser.id ||
-      post.authorName === currentUser.name ||
+      (post.authorName === `${currentUser.firstName} ${currentUser.lastName}`) ||
       post.authorEmail === currentUser.email);
+
+  // User can edit/delete if they're admin or it's their own post
+  const canEditDelete = isAdmin || isOwnPost;
+
+  const isLikedByCurrentUser = () => {
+    if (!post || !currentUser) return false;
+    // Check if current user's ID is in the likedByUserIds array
+    return post.likedByUserIds?.includes(currentUser.id) || false;
+  };
 
   return (
     <Box
@@ -284,7 +345,7 @@ export default function HomePage() {
                 position: "relative",
               }}
             >
-              {isOwnPost && isLoggedIn && (
+              {canEditDelete && isLoggedIn && (
                 <IconButton
                   onClick={handleMenuOpen}
                   sx={{
@@ -321,6 +382,25 @@ export default function HomePage() {
                 <Typography variant="body2">
                   {post.description || ""}
                 </Typography>
+                <Box sx={{ display: "flex", alignItems: "center", mt: 2, justifyContent: "space-between" }}>
+                  <Box sx={{ display: "flex", alignItems: "center" }}>
+                    <IconButton
+                      onClick={() => handleLikePost(post.id)}
+                      disabled={!isLoggedIn || (isOwnPost && !isAdmin)}
+                      sx={{
+                        color: isLikedByCurrentUser() ? "#ff0000" : "#fff",
+                        "&:disabled": {
+                          color: "rgba(255, 255, 255, 0.3)"
+                        }
+                      }}
+                    >
+                      {isLikedByCurrentUser() ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+                    </IconButton>
+                    <Typography variant="body2" sx={{ ml: 1 }}>
+                      {post.likeCount || 0} Likes
+                    </Typography>
+                  </Box>
+                </Box>
               </CardContent>
             </Card>
           </Box>
@@ -366,10 +446,31 @@ export default function HomePage() {
                 borderRadius: "0px",
                 mr: 1,
               }}
-              onClick={() => setOpenDialog(true)}
+              onClick={() => {
+                if (!isLoggedIn) {
+                  navigate("/login");
+                } else {
+                  setOpenDialog(true);
+                }
+              }}
             >
               Neuer Post
             </Button>
+            {isAdmin && (
+              <Button
+                variant="contained"
+                sx={{
+                  color: "#fff",
+                  backgroundColor: "#4A4343",
+                  "&:hover": { backgroundColor: "#2c2c2c" },
+                  borderRadius: "0px",
+                  mr: 1,
+                }}
+                onClick={() => navigate("/users")}
+              >
+                Benutzer
+              </Button>
+            )}
             <Button
               variant="contained"
               sx={{
@@ -395,7 +496,11 @@ export default function HomePage() {
                 borderRadius: "0px",
               }}
               onClick={() => {
-                navigate("/profile");
+                if (!isLoggedIn) {
+                  navigate("/login");
+                } else {
+                  navigate("/profile");
+                }
               }}
             >
               Profile
