@@ -63,4 +63,15 @@ Basierend auf `data.sql`:
 
 ---
 
+## Cypress Testfälle (Frontend)
+
+| User Case | Beschreibung | Schritte | Erwartetes Ergebnis |
+|-----------|--------------|----------|----------------------|
+| **UC1** | User erstellt einen Image Post | 1. Login mit gültigem User <br> 2. Klicke auf **"Neuer Post"** <br> 3. Trage `Beschreibung` + `Bild URL` ein <br> 4. Klicke auf **"Post erstellen"** | Neuer Post erscheint in der Galerie mit Bild und Beschreibung |
+| **UC2** | User bearbeitet eigenen Post | 1. Login mit User <br> 2. Wähle eigenen Post aus <br> 3. Klicke auf **"Bearbeiten"** <br> 4. Ändere Beschreibung <br> 5. Speichern | Geänderter Text wird sofort im Post angezeigt |
+| **UC3** | User löscht eigenen Post | 1. Login mit User <br> 2. Wähle eigenen Post aus <br> 3. Klicke auf **"Löschen"** <br> 4. Bestätige Dialog | Post wird aus der Galerie entfernt |
+| **UC4** | User sieht alle Posts anderer User | 1. Login mit User <br> 2. Navigiere zur Startseite (Home) | Galerie zeigt alle Posts, inkl. Bilder + Beschreibungen von anderen Usern |
+| **UC5** | User besucht Profilseite | 1. Login mit User <br> 2. Navigiere zu **"Profile"** <br> 3. Lade Profilinformationen + eigene Posts | Profil zeigt Name, Email, Bio und Liste eigener Posts |
+| **UC6** | Navigation & Authentifizierung | 1. Ohne Login: versuche **/profile** aufzurufen <br> 2. Mit Login: navigiere zwischen Home, Profile, Logout | Ohne Login → Redirect auf Login-Seite <br> Mit Login → korrekte Navigation |
+
 
