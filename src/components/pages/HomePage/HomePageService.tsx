@@ -1,4 +1,5 @@
 import axios from "axios";
+import HomePage from "./HomePage";
 
 // Create a base Axios instance
 export const baseInstance = axios.create({
@@ -8,22 +9,22 @@ export const baseInstance = axios.create({
   },
 });
 
-const MovieService = (api = baseInstance) => ({
+const HomePageService = (api = baseInstance) => ({
   // Example: Fetch all movies
-  getAllMovies: () => api.get("/posts"),
+  getAllPosts: () => api.get("/posts"),
 
   // Example: Fetch a movie by ID
-  getMovieById: (id: string | number) => api.get(`/posts/${id}`),
+  getPostsById: (id: string | number) => api.get(`/posts/${id}`),
 
   // Example: Create a new movie
-  createMovie: (movieData: any) => api.post("/posts", movieData),
+  createPosts: (postData: any) => api.post("/posts", postData),
 
   // Example: Update a movie
-  updateMovie: (id: string | number, movieData: any) =>
-    api.put(`/posts/${id}`, movieData),
+  updatePosts: (id: string | number, movieData: any) =>
+    api.put(`/posts/${id}`, HomePageService),
 
   // Example: Delete a movie
-  deleteMovie: (id: string | number) => api.delete(`/posts/${id}`),
+  deletePosts: (id: string | number) => api.delete(`/posts/${id}`),
 });
 
-export default MovieService;
+export default HomePageService;
