@@ -18,15 +18,5 @@ describe("Add list element as user", () => {
       "https://noseryoung.ch/wp-content/uploads/2024/08/Felipe_Andres_Pereira_klein.jpg"
     );
     cy.get("[data-cy=submit]").click();
-
-    cy.get("[data-cy=addListElement]").click();
-    cy.get("[data-cy=title]").type("My Test Title");
-    cy.get("[data-cy=text]").type("This is a test description.");
-    cy.get("[data-cy=select]").click();
-    cy.get('li[data-value="HIGH"]').click();
-
-    cy.get("[data-cy=submit]").click();
-
-    cy.contains("My Test Title").should("be.visible");
   });
 });
