@@ -1,0 +1,24 @@
+name: Cypress Tests
+
+on:
+  push
+  
+jobs:
+ cypress-run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+      - name: Install dependencies
+        run: yarn install
+      - name: Run Cypress tests
+        uses: cypress-io/github-action@v6
+        with:
+          start: yarn start
+          wait-on: 'https://diego.dev.noseryoung.ch/'
+          wait-on-timeout: 60
+          spec: cypress/e2e/e2e.cy.ts
