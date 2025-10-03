@@ -1,22 +1,14 @@
 describe("Add list element as user", () => {
   beforeEach(() => {
-    // Mock Login-Request
-    cy.intercept("POST", "/api/user/login", {
-      statusCode: 200,
-      body: {
-        token: "fake-jwt",
-        user: { id: 1, email: "admin@example.com" },
-      },
-    }).as("loginRequest");
-
-    // Login-Seite aufrufen
     cy.visit("/login");
     cy.get("[data-cy=email]").type("admin@example.com");
     cy.get("[data-cy=password]").type("1234");
     cy.get("[data-cy=submit-login]").click();
 
-    // Sicherstellen, dass der Login-Request abgefeuert wurde
-    cy.wait("@loginRequest");
+    cy.request("POST", "https://diego.dev.noseryoung.ch/api/user/login", {
+      email: "admin@example.com",
+      password: "1234",
+    });
   });
 
   it("Should create a new list element successfully", () => {
