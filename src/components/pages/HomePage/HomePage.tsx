@@ -56,13 +56,13 @@ export default function HomePage() {
       headers.Authorization = `Bearer ${token}`;
 
       // Fetch current user info
-      fetch("http://localhost:8080/user/profile", { headers })
+      fetch("https://diego.dev.noseryoung.ch/api/user/profile", { headers })
         .then((res) => (res.ok ? res.json() : null))
         .then((userData) => setCurrentUser(userData))
         .catch(() => setCurrentUser(null));
     }
 
-    fetch("http://localhost:8080/posts", { headers })
+    fetch("https://diego.dev.noseryoung.ch/api/posts", { headers })
       .then((res) => {
         if (!res.ok) {
           // Don't throw error, just return empty array
@@ -104,14 +104,17 @@ export default function HomePage() {
     };
 
     try {
-      const response = await fetch("http://localhost:8080/posts", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(postData),
-      });
+      const response = await fetch(
+        "https://diego.dev.noseryoung.ch/api/posts",
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(postData),
+        }
+      );
 
       if (response.ok) {
         const createdPost = await response.json();
@@ -134,7 +137,7 @@ export default function HomePage() {
 
     try {
       const response = await fetch(
-        `http://localhost:8080/posts/${selectedPost.id}`,
+        `https://diego.dev.noseryoung.ch/api/posts/${selectedPost.id}`,
         {
           method: "PUT",
           headers: {
@@ -168,7 +171,7 @@ export default function HomePage() {
 
     try {
       const response = await fetch(
-        `http://localhost:8080/posts/${selectedPost.id}`,
+        `https://diego.dev.noseryoung.ch/api/posts/${selectedPost.id}`,
         {
           method: "DELETE",
           headers: {
@@ -204,7 +207,7 @@ export default function HomePage() {
 
     try {
       const response = await fetch(
-        `http://localhost:8080/posts/${postId}/like`,
+        `https://diego.dev.noseryoung.ch/api/posts/${postId}/like`,
         {
           method: "POST",
           headers: {
@@ -261,15 +264,15 @@ export default function HomePage() {
   const post = posts[current];
 
   // Check if current user is admin
-  const isAdmin = currentUser?.roles?.some((role: any) =>
-    role.name === "ADMIN"
+  const isAdmin = currentUser?.roles?.some(
+    (role: any) => role.name === "ADMIN"
   );
 
   const isOwnPost =
     currentUser &&
     post &&
     (post.authorId === currentUser.id ||
-      (post.authorName === `${currentUser.firstName} ${currentUser.lastName}`) ||
+      post.authorName === `${currentUser.firstName} ${currentUser.lastName}` ||
       post.authorEmail === currentUser.email);
 
   // User can edit/delete if they're admin or it's their own post
@@ -382,7 +385,14 @@ export default function HomePage() {
                 <Typography variant="body2">
                   {post.description || ""}
                 </Typography>
-                <Box sx={{ display: "flex", alignItems: "center", mt: 2, justifyContent: "space-between" }}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    mt: 2,
+                    justifyContent: "space-between",
+                  }}
+                >
                   <Box sx={{ display: "flex", alignItems: "center" }}>
                     <IconButton
                       onClick={() => handleLikePost(post.id)}
@@ -390,11 +400,15 @@ export default function HomePage() {
                       sx={{
                         color: isLikedByCurrentUser() ? "#ff0000" : "#fff",
                         "&:disabled": {
-                          color: "rgba(255, 255, 255, 0.3)"
-                        }
+                          color: "rgba(255, 255, 255, 0.3)",
+                        },
                       }}
                     >
-                      {isLikedByCurrentUser() ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+                      {isLikedByCurrentUser() ? (
+                        <FavoriteIcon />
+                      ) : (
+                        <FavoriteBorderIcon />
+                      )}
                     </IconButton>
                     <Typography variant="body2" sx={{ ml: 1 }}>
                       {post.likeCount || 0} Likes
